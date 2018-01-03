@@ -44,10 +44,24 @@
 
                 <div class="panel-body text-center">
                   <h1>Roman Numerals Converter</h1>
-                  <div class="Row">
-                    <div class="col-sm-10">
+                  <div class="Row text-center">
+                    <div class="col-sm-offset-3 col-sm-6">
+                      <label for="number">What number would you like to convert?</label>
+                      <input type="text" class="form-control" id="txtNumber">
                     </div>
-                    <div class="col-sm-2">
+                  </div>
+
+                  <br>
+
+                  <div class="Row">
+                    <div class="col-sm-offset-6 col-sm-2">
+                      <button type="button" class="btn btn-sm btn-warning" id="btnConvertBack">Back</button>
+                    </div>
+                  </div>
+
+
+                  <div class="Row">
+                    <div class="col-sm-offset-10 col-sm-2">
                       <button type="button" class="btn btn-sm btn-warning" id="btnConvertBack">Back</button>
                     </div>
                   </div>
@@ -61,9 +75,7 @@
                 <div class="panel-body text-center">
                   <h1>Statistics</h1>
                   <div class="Row">
-                    <div class="col-sm-10">
-                    </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-offset-10 col-sm-2">
                       <button type="button" class="btn btn-sm btn-warning" id="btnStatsBack">Back</button>
                     </div>
                   </div>
@@ -98,6 +110,12 @@ $(document).ready(function(){
   $('#btnConvertBack').click(function() {
     $('#converterPanel').delay(500).slideUp(500);
     $('#homePanel').delay(1500).slideDown(500);
+  });
+
+  $('#txtNumber').change(function() {
+    if ($('#txtNumber').val() == "") {
+
+    };
   });
 });
 
