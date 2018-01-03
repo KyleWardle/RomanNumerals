@@ -9,7 +9,7 @@
           <h1 class="display-3" style="padding-top: 250px;">Roman Numerals Converter</h1>
           <p>This web application will convert base 10 numbers into Roman Numerals for you.</p>
           @guest
-            <p style="padding-top: 30px;"><a class="login-button" href="{{route('home')}}" role="button"><span>Sign in</span></a></p>
+            <p style="padding-top: 30px;"><a class="login-button" href="{{route('home')}}" role="button"><span>Log in</span></a></p>
           @else
             <p style="padding-top: 30px;"><a class="login-button" href="{{route('home')}}" role="button"><span>Get Started</span></a></p>
           @endguest
