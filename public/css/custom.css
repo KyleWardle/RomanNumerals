@@ -68,3 +68,7 @@ body {
 .warning {
   color:red;
 }
+
+th {
+  text-align: center;
+}

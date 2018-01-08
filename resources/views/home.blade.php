@@ -35,7 +35,7 @@
                         <button type="button" class="btn btn-lg btn-success" id="btnStatistics">Statistics</button>
                       </div>
                       <div class="col-sm-4">
-                        <button type="button" class="btn btn-lg btn-danger">Coming Soon</button>
+                        <button type="button" class="btn btn-lg btn-danger" id="btnHistory">History</button>
                       </div>
                     </div>
                 </div>
@@ -84,13 +84,14 @@
                   <div class="Row">
                     <div class="col-sm-5">
                       <h3><strong>Most Conversions: </strong></h3>
-                      <h4>Kyle Wardle</h4>
+                      <h4 id="mostConversions"></h4>
 
                     </div>
 
                     <div class="col-sm-offset-1 col-sm-5">
                       <h3><strong>Most Popular number: </strong></h3>
-                      <h4>16</h4>
+                      <h4 id="popNumber" class="odometer"></h4>
+                      <p id="popNumberVal" class="display-none"></p>
                     </div>
 
                   </div>
@@ -98,19 +99,52 @@
                   <div class="Row">
                     <div class="col-sm-5">
                       <h3><strong>Total Conversions: </strong></h3>
-                      <h4>123</h4>
+                      <h4 id="totalConversions" class="odometer"></h4>
+                      <p id="totalConversionsVal" class="display-none"></p>
 
                     </div>
 
                     <div class="col-sm-offset-1 col-sm-5">
                       <h3><strong>Total User Count:</strong></h3>
-                      <h4>16</h4>
+                      <h4 id="totalUsers" class="odometer"></h4>
+                      <p id="totalUsersVal" class="display-none"></p>
                     </div>
 
                     <div class="col-sm-offset-10 col-sm-2">
                       <button type="button" class="btn btn-sm btn-warning" id="btnStatsBack">Back</button>
                     </div>
                   </div>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default  display-none" id="historyPanel">
+                <div class="panel-heading">History</div>
+
+                <div class="panel-body text-center">
+                  <h1>Recent Conversion History</h1>
+                    <table id="historyTable" class="table table-bordered table-hover table-responsive">
+                      <thead>
+                        <tr>
+                          <th>UserName</th>
+                          <th>Original Number</th>
+                          <th>Roman Numeral</th>
+                          <th>Timestamp</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <div>
+                      <button type="button" class="btn btn-sm btn-warning" id="btnHistoryBack">Back</button>
+                    </div>
 
                 </div>
             </div>
@@ -127,6 +161,11 @@
 
 <script>
 $(document).ready(function(){
+  window.setInterval(function(){
+    updateStats();
+    updateTable();
+  }, 2000);
+
   $('#loggedin').delay(2000).slideUp(1000);
 
   $('#btnConverter').click(function() {
@@ -134,21 +173,21 @@ $(document).ready(function(){
     $('#converterPanel').delay(1500).slideDown(500);
   });
 
+  $('#btnHistory').click(function() {
+    $('#homePanel').delay(500).slideUp(500);
+    $('#historyPanel').delay(1500).slideDown(500);
+    updateTable()
+  });
+
+  $('#btnHistoryBack').click(function() {
+    $('#historyPanel').delay(500).slideUp(500);
+    $('#homePanel').delay(1500).slideDown(500);
+  });
+
   $('#btnStatistics').click(function() {
-    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $('#homePanel').delay(500).slideUp(500);
     $('#statisticPanel').delay(1500).slideDown(500);
-    $.ajax({
-      type: 'post',
-      url: '{{ route("getStats") }}',
-      data: {_token: CSRF_TOKEN},
-      success:function(data){
-        console.log(data[]);
-      },
-      error:function(data){
-        console.log(data);
-      },
-    });//end ajax
+    updateStats()
   });
 
   $('#btnStatsBack').click(function() {
@@ -190,6 +229,69 @@ $(document).ready(function(){
   });
 
 });
+
+function updateStats() {
+  var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+  $.ajax({
+    type: 'post',
+    url: '{{ route("getStats") }}',
+    data: {_token: CSRF_TOKEN},
+    success:function(data){
+      if ($('#totalUsersVal').text() != data[0]) {
+        $('#totalUsers').text(data[0]);
+        $('#totalUsersVal').text(data[0]);
+      }
+
+      if ($('#totalConversionsVal').text() != data[1]) {
+        $('#totalConversions').text(data[1]);
+        $('#totalConversionsVal').text(data[1]);
+      }
+
+      if ($('#popNumberVal').text() != data[2]) {
+        $('#popNumber').text(data[2]);
+        $('#popNumberVal').text(data[2]);
+      }
+
+      $('#mostConversions').text(data[3]);
+
+
+    },
+    error:function(data){
+      console.log(data);
+    },
+  });//end ajax
+}
+
+function updateTable() {
+  var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+  $.ajax({
+    type: 'post',
+    url: '{{ route("getTable") }}',
+    data: {_token: CSRF_TOKEN},
+    success:function(data){
+      $('#historyTable').empty();
+      $('<thead align="center">').append(
+      $('<tr>').append(
+      $('<th>').text("UserID"),
+      $('<th>').text("Original Number"),
+      $('<th>').text("Roman Numeral"),
+      $('<th>').text("Timestamp"))).appendTo('#historyTable');
+      data = $.parseJSON(data);
+      $.each(data, function(i, item) {
+        $('<tbody>').append(
+            $('<tr>').append(
+            $('<td>').text(item.userID),
+            $('<td>').text(item.orgNumber),
+            $('<td>').text(item.romNumeral),
+            $('<td>').text(item.created_at))).appendTo('#historyTable');
+    });
+
+    },
+    error:function(data){
+      console.log(data);
+    },
+  });//end ajax
+}
 
 </script>
 @endsection

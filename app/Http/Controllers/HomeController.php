@@ -64,7 +64,40 @@ class HomeController extends Controller
       $conversions = Conversion::all();
       $conversionCount = $conversions->count();
 
-      $statsArray = array($userCount, $conversionCount);
+      $popNum = Conversion::select('orgNumber')
+      ->groupBy('orgNumber')
+      ->orderByRaw('COUNT(*) DESC')
+      ->limit(1)
+      ->get();
+
+      $popNum = $popNum[0]->orgNumber;
+
+      $userID = Conversion::select('userID')
+      ->groupBy('userID')
+      ->orderByRaw('COUNT(*) DESC')
+      ->limit(1)
+      ->get();
+
+      $userID = $userID[0]->userID;
+
+      $userName = User::findOrFail($userID)->name;
+
+
+      $statsArray = array($userCount, $conversionCount, $popNum, $userName);
       return $statsArray;
+    }
+
+    public function getTable(request $request)
+    {
+      // $tableArray = Conversion::all();
+      // $tableArray->sortBy('created_at');
+      $tableArray = Conversion::select('id','userID','orgNumber','romNumeral','created_at')
+      ->orderBy('id', 'DESC')
+      ->limit(15)
+      ->get();
+
+      $tableArray = json_encode($tableArray);
+
+      return $tableArray;
     }
 }
