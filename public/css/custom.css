@@ -60,3 +60,11 @@ body {
 .display-none {
   display: none;
 }
+
+.overflow-break {
+  overflow-wrap: break-word;
+}
+
+.warning {
+  color:red;
+}

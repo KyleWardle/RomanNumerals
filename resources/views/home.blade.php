@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<script src="https://use.fontawesome.com/d42e713b06.js"></script>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -52,10 +54,15 @@
                       <div class="row">
                         <div class="col-sm-6">
                           <h3>Original Number:</h3>
+                          <h4 id="base10Results" class="overflow-break odometer"></h4>
                         </div>
                         <div class="col-sm-6">
                           <h3>Roman Numeral:</h3>
+                          <h4 id="romanNumeralResults" class="overflow-break" data-in-effect="fadeInUp" data-out-effect="fadeOutUp"></h4>
                         </div>
+                      </div>
+                      <div>
+                        <h5 id="converterErrors" class="warning"></h5>
                       </div>
                     </div>
                   </div>
@@ -88,6 +95,11 @@
     </div>
 </div>
 
+<link rel="stylesheet" href="css/odometer-theme-default.css" />
+
+<script src="js/odometer.js"></script>
+
+
 <script>
 $(document).ready(function(){
   $('#loggedin').delay(2000).slideUp(1000);
@@ -117,18 +129,25 @@ $(document).ready(function(){
     var numberVal = $('#txtNumber').val();
     console.log((numberVal.length));
     if ((numberVal).length != 0) {
-      $.ajax({
-        type: 'post',
-        url: '{{ route("convertNumeral") }}',
-        data: {_token: CSRF_TOKEN,'numberVal':numberVal},
-        success:function(data){
-          console.log(data);
-        },
-        error:function(data){
-          console.log(data);
-        },
-      });//end ajax
-    } else {
+      if(numberVal < 5000) {
+        $('#converterErrors').html('');
+        $.ajax({
+          type: 'post',
+          url: '{{ route("convertNumeral") }}',
+          data: {_token: CSRF_TOKEN,'numberVal':numberVal},
+          success:function(data){
+            console.log(data);
+            $('#base10Results').html(numberVal);
+            $('#romanNumeralResults').text(data);
+          },
+          error:function(data){
+            console.log(data);
+          },
+        });//end ajax
+      } else {
+        $('#converterErrors').html('<i class="fa fa-lg fa-exclamation-triangle"></i> You need to enter a value bellow 5000!');
+
+      };
 
     };
   });

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use App\Conversion;
 
 class HomeController extends Controller
 {
@@ -41,6 +43,16 @@ class HomeController extends Controller
               }
           }
       }
+
+      $id = Auth::id();
+
+      $conversion = New Conversion;
+      $conversion->userID = $id;
+      $conversion->orgNumber = $request->input('numberVal');
+      $conversion->romNumeral = $finalVal;
+      $conversion->save();
+
+
       return $finalVal;
     }
 }
