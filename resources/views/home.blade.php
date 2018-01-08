@@ -82,6 +82,31 @@
                 <div class="panel-body text-center">
                   <h1>Statistics</h1>
                   <div class="Row">
+                    <div class="col-sm-5">
+                      <h3><strong>Most Conversions: </strong></h3>
+                      <h4>Kyle Wardle</h4>
+
+                    </div>
+
+                    <div class="col-sm-offset-1 col-sm-5">
+                      <h3><strong>Most Popular number: </strong></h3>
+                      <h4>16</h4>
+                    </div>
+
+                  </div>
+
+                  <div class="Row">
+                    <div class="col-sm-5">
+                      <h3><strong>Total Conversions: </strong></h3>
+                      <h4>123</h4>
+
+                    </div>
+
+                    <div class="col-sm-offset-1 col-sm-5">
+                      <h3><strong>Total User Count:</strong></h3>
+                      <h4>16</h4>
+                    </div>
+
                     <div class="col-sm-offset-10 col-sm-2">
                       <button type="button" class="btn btn-sm btn-warning" id="btnStatsBack">Back</button>
                     </div>
@@ -110,8 +135,20 @@ $(document).ready(function(){
   });
 
   $('#btnStatistics').click(function() {
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $('#homePanel').delay(500).slideUp(500);
     $('#statisticPanel').delay(1500).slideDown(500);
+    $.ajax({
+      type: 'post',
+      url: '{{ route("getStats") }}',
+      data: {_token: CSRF_TOKEN},
+      success:function(data){
+        console.log(data[]);
+      },
+      error:function(data){
+        console.log(data);
+      },
+    });//end ajax
   });
 
   $('#btnStatsBack').click(function() {

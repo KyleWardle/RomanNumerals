@@ -19,3 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/convert', 'HomeController@convertNumeral')->name('convertNumeral');
+Route::post('/fetch', 'HomeController@getStats')->name('getStats');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Conversion;
+use App\User;
+
 
 class HomeController extends Controller
 {
@@ -54,5 +56,15 @@ class HomeController extends Controller
 
 
       return $finalVal;
+    }
+
+    public function getStats(request $request)
+    {
+      $userCount = User::all()->count();
+      $conversions = Conversion::all();
+      $conversionCount = $conversions->count();
+
+      $statsArray = array($userCount, $conversionCount);
+      return $statsArray;
     }
 }
