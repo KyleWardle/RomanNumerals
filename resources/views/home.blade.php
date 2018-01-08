@@ -47,18 +47,18 @@
                   <div class="Row text-center">
                     <div class="col-sm-offset-3 col-sm-6">
                       <label for="number">What number would you like to convert?</label>
-                      <input type="text" class="form-control" id="txtNumber">
+                      <input type="number" class="form-control" id="txtNumber">
+                      <br>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <h3>Original Number:</h3>
+                        </div>
+                        <div class="col-sm-6">
+                          <h3>Roman Numeral:</h3>
+                        </div>
+                      </div>
                     </div>
                   </div>
-
-                  <br>
-
-                  <div class="Row">
-                    <div class="col-sm-offset-6 col-sm-2">
-                      <button type="button" class="btn btn-sm btn-warning" id="btnConvertBack">Back</button>
-                    </div>
-                  </div>
-
 
                   <div class="Row">
                     <div class="col-sm-offset-10 col-sm-2">
@@ -113,10 +113,26 @@ $(document).ready(function(){
   });
 
   $('#txtNumber').change(function() {
-    if ($('#txtNumber').val() == "") {
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    var numberVal = $('#txtNumber').val();
+    console.log((numberVal.length));
+    if ((numberVal).length != 0) {
+      $.ajax({
+        type: 'post',
+        url: '{{ route("convertNumeral") }}',
+        data: {_token: CSRF_TOKEN,'numberVal':numberVal},
+        success:function(data){
+          console.log(data);
+        },
+        error:function(data){
+          console.log(data);
+        },
+      });//end ajax
+    } else {
 
     };
   });
+
 });
 
 </script>
