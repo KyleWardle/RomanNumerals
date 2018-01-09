@@ -204,23 +204,27 @@ $(document).ready(function(){
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     var numberVal = $('#txtNumber').val();
     if ((numberVal).length != 0) {
-      if(numberVal < 5000) {
-        $('#converterErrors').html('');
-        $.ajax({
-          type: 'post',
-          url: '{{ route("convertNumeral") }}',
-          data: {_token: CSRF_TOKEN,'numberVal':numberVal},
-          success:function(data){
-            $('#base10Results').html(numberVal);
-            $('#romanNumeralResults').text(data);
-          },
-          error:function(data){
-            console.log(data);
-          },
-        });//end ajax
-      } else {
-        $('#converterErrors').html('<i class="fa fa-lg fa-exclamation-triangle"></i> You need to enter a value bellow 5000!');
+      if(numberVal > 0) {
+        if(numberVal < 5000) {
+          $('#converterErrors').html('');
+          $.ajax({
+            type: 'post',
+            url: '{{ route("convertNumeral") }}',
+            data: {_token: CSRF_TOKEN,'numberVal':numberVal},
+            success:function(data){
+              $('#base10Results').html(numberVal);
+              $('#romanNumeralResults').text(data);
+            },
+            error:function(data){
+              console.log(data);
+            },
+          });//end ajax
+        } else {
+          $('#converterErrors').html('<i class="fa fa-lg fa-exclamation-triangle"></i> You need to enter a value bellow 5000!');
 
+        };
+      } else {
+        $('#converterErrors').html('<i class="fa fa-lg fa-exclamation-triangle"></i> You need to enter a value above 0!');
       };
 
     };
