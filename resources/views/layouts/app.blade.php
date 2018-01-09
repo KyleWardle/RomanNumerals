@@ -13,6 +13,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/theme2.css') }}" rel="stylesheet"> --}}
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
@@ -37,7 +39,7 @@
                         {{ config('app.name', 'Roman Numerals') }}
                     </a>
                 </div>
-                
+
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
@@ -69,8 +71,32 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+                                    <li>
+                                        <a id="lightTheme" href="#">
+                                            Light Theme
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a id="darkTheme" href="#">
+                                            Dark Theme
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
+
+                            <script>
+                            $( document ).ready(function() {
+
+                              $('#lightTheme').click(function (){
+                                console.log("test");
+                               $('link[href="css/theme2.css"]').attr('href','css/custom.css');
+                              });
+                              $('#darkTheme').click(function (){
+                               $('link[href="css/custom.css"]').attr('href','css/theme2.css');
+                              });
+                            });
+
+                            </script>
                         @endguest
                     </ul>
                 </div>
