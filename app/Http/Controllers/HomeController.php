@@ -96,6 +96,10 @@ class HomeController extends Controller
       ->limit(15)
       ->get();
 
+      foreach ($tableArray as $conversion) {
+        $conversion->userID = User::findOrFail($conversion->userID)->name;
+      }
+
       $tableArray = json_encode($tableArray);
 
       return $tableArray;

@@ -203,7 +203,6 @@ $(document).ready(function(){
   $('#txtNumber').change(function() {
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     var numberVal = $('#txtNumber').val();
-    console.log((numberVal.length));
     if ((numberVal).length != 0) {
       if(numberVal < 5000) {
         $('#converterErrors').html('');
@@ -212,7 +211,6 @@ $(document).ready(function(){
           url: '{{ route("convertNumeral") }}',
           data: {_token: CSRF_TOKEN,'numberVal':numberVal},
           success:function(data){
-            console.log(data);
             $('#base10Results').html(numberVal);
             $('#romanNumeralResults').text(data);
           },
@@ -272,7 +270,7 @@ function updateTable() {
       $('#historyTable').empty();
       $('<thead align="center">').append(
       $('<tr>').append(
-      $('<th>').text("UserID"),
+      $('<th>').text("UserName"),
       $('<th>').text("Original Number"),
       $('<th>').text("Roman Numeral"),
       $('<th>').text("Timestamp"))).appendTo('#historyTable');
