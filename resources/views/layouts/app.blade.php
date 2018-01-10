@@ -12,14 +12,18 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('css/theme2.css') }}" rel="stylesheet"> --}}
+    @if($theme == 1)
+      <link href="{{ asset('css/theme2.css') }}" rel="stylesheet">
+    @else
+      <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    @endif
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
 
 </head>
+
 <body>
     <div id="app">
         <nav class="custom-nav navbar navbar-default navbar-static-top">
@@ -72,12 +76,12 @@
                                         </form>
                                     </li>
                                     <li>
-                                        <a id="lightTheme" href="#">
+                                        <a id="lightTheme" href="">
                                             Light Theme
                                         </a>
                                       </li>
                                       <li>
-                                        <a id="darkTheme" href="#">
+                                        <a id="darkTheme" href="">
                                             Dark Theme
                                         </a>
                                     </li>
@@ -88,13 +92,27 @@
                             $( document ).ready(function() {
 
                               $('#lightTheme').click(function (){
-                                console.log("test");
-                               $('link[href="css/theme2.css"]').attr('href','css/custom.css');
+                                changeTheme(1);
                               });
                               $('#darkTheme').click(function (){
-                               $('link[href="css/custom.css"]').attr('href','css/theme2.css');
+                                changeTheme(0);
                               });
                             });
+
+                            function changeTheme(choice) {
+                              var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                              $.ajax({
+                                type: 'post',
+                                url: '{{ route("changeTheme") }}',
+                                data: {_token: CSRF_TOKEN, 'choice':choice},
+                                success:function(data){
+                                  window.location.reload();
+                                },
+                                error:function(data){
+                                  console.log(data);
+                                },
+                              });//end ajax
+                            }
 
                             </script>
                         @endguest

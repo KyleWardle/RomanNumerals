@@ -27,7 +27,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+      if(Auth::guest()){
+        return view('home')->with('theme', -1);
+      }
+      $id = Auth::id();
+      $user = User::findOrFail($id);
+      $theme = $user->theme;
+      return view('home')->with('theme', $theme);
+    }
+
+    public function splash()
+    {
+      if(Auth::guest()){
+        return view('index')->with('theme', -1);
+      }
+      $id = Auth::id();
+      $user = User::findOrFail($id);
+      $theme = $user->theme;
+      return view('index')->with('theme', $theme);
     }
 
     public function convertNumeral(request $request)
@@ -103,5 +120,18 @@ class HomeController extends Controller
       $tableArray = json_encode($tableArray);
 
       return $tableArray;
+    }
+
+    public function changeTheme(request $request)
+    {
+      $id = Auth::id();
+      $choice = $request->input('choice');
+
+      $user = User::findOrFail($id);
+
+      $user->theme = $choice;
+      $user->save();
+
+      return 0;
     }
 }
