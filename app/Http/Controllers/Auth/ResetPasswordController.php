@@ -36,4 +36,11 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    public function showResetForm()
+    {
+        $title = 'Reset Password';
+
+        return view('auth.passwords.reset', compact('register'))->with('theme', -1);
+    }
 }
