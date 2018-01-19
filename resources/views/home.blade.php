@@ -29,13 +29,13 @@
                     <br>
                     <div class="row">
                       <div class="col-sm-4">
-                        <button type="button" class="btn btn-lg btn-primary" id="btnConverter">Converter</button>
+                        <button type="button" class="btn btn-lg btn-primary bottom-padding" id="btnConverter">Converter</button>
                       </div>
                       <div class="col-sm-4">
-                        <button type="button" class="btn btn-lg btn-success" id="btnStatistics">Statistics</button>
+                        <button type="button" class="btn btn-lg btn-success bottom-padding" id="btnStatistics">Statistics</button>
                       </div>
                       <div class="col-sm-4">
-                        <button type="button" class="btn btn-lg btn-danger" id="btnHistory">History</button>
+                        <button type="button" class="btn btn-lg btn-danger bottom-padding" id="btnHistory">History</button>
                       </div>
                     </div>
                 </div>
