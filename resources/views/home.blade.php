@@ -28,13 +28,13 @@
                     <br>
                     <br>
                     <div class="row">
-                      <div class="col-sm-4" style="padding-bottom:2%;">
+                      <div class="col-sm-4 bottom-padding">
                         <button type="button" class="btn btn-lg btn-primary" id="btnConverter">Converter</button>
                       </div>
-                      <div class="col-sm-4" style="padding-bottom:2%;">
+                      <div class="col-sm-4 bottom-padding">
                         <button type="button" class="btn btn-lg btn-success" id="btnStatistics">Statistics</button>
                       </div>
-                      <div class="col-sm-4" style="padding-bottom:2%;">
+                      <div class="col-sm-4 bottom-padding">
                         <button type="button" class="btn btn-lg btn-danger" id="btnHistory">History</button>
                       </div>
                     </div>
